@@ -1,6 +1,7 @@
 package dawidkruczek.projectII.librarysystem.support.order;
 
 import dawidkruczek.projectII.librarysystem.model.Author;
+import dawidkruczek.projectII.librarysystem.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,27 +13,27 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping("/orders")
-    public List<Author> getAllAuthors() {
+    public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
 
     @GetMapping("/orders/{id}")
-    public Author getAuthor(@PathVariable long id) {
+    public Order getOrder(@PathVariable long id) {
         return orderService.getOrder(id);
     }
 
     @PostMapping("/orders")
-    public void addAuthor(@RequestBody Author author) {
-        orderService.addOrder(author);
+    public void addOrder(@RequestBody Order order) {
+        orderService.addOrder(order);
     }
 
     @PutMapping("/orders/{id}")
-    public void updateAuthor(@RequestBody Author author, @PathVariable long id) {
-        orderService.updateOrder(id, author);
+    public void updateOrder(@RequestBody Order order, @PathVariable long id) {
+        orderService.updateOrder(id, order);
     }
 
     @DeleteMapping("/orders/{id}")
-    public void updateAuthor(@PathVariable long id) {
+    public void updateOrder(@PathVariable long id) {
         orderService.deleteOrder(id);
     }
 }
