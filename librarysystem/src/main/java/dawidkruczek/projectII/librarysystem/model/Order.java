@@ -1,66 +1,70 @@
 package dawidkruczek.projectII.librarysystem.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "Orders")
 public class Order {
-    private long id;
-    private long idUser;
-    private long idEmployeeRent;
-    private long getIdEmployeeReturn;
-    private long idBook;
+    @Id
+    private String id;
+    private User user;
+    private User employeeRent;
+    private User employeeReturn;
+    private Book book;
     private String dateOfRent;
     private String dateOfReturn;
     private String status;
 
     public Order(){}
 
-    public Order(long id, long idUser, long idEmployeeRent, long getIdEmployeeReturn, long idBook, String dateOfRent, String dateOfReturn, String status) {
-        this.id = id;
-        this.idUser = idUser;
-        this.idEmployeeRent = idEmployeeRent;
-        this.getIdEmployeeReturn = getIdEmployeeReturn;
-        this.idBook = idBook;
+    public Order(User user, User employeeRent, User employeeReturn, Book book, String dateOfRent, String dateOfReturn, String status) {
+        this.user = user;
+        this.employeeRent = employeeRent;
+        this.employeeReturn = employeeReturn;
+        this.book = book;
         this.dateOfRent = dateOfRent;
         this.dateOfReturn = dateOfReturn;
         this.status = status;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public long getIdEmployeeRent() {
-        return idEmployeeRent;
+    public User getEmployeeRent() {
+        return employeeRent;
     }
 
-    public void setIdEmployeeRent(long idEmployeeRent) {
-        this.idEmployeeRent = idEmployeeRent;
+    public void setEmployeeRent(User employeeRent) {
+        this.employeeRent = employeeRent;
     }
 
-    public long getGetIdEmployeeReturn() {
-        return getIdEmployeeReturn;
+    public User getEmployeeReturn() {
+        return employeeReturn;
     }
 
-    public void setGetIdEmployeeReturn(long getIdEmployeeReturn) {
-        this.getIdEmployeeReturn = getIdEmployeeReturn;
+    public void setEmployeeReturn(User employeeReturn) {
+        this.employeeReturn = employeeReturn;
     }
 
-    public long getIdBook() {
-        return idBook;
+    public Book getBook() {
+        return book;
     }
 
-    public void setIdBook(long idBook) {
-        this.idBook = idBook;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     public String getDateOfRent() {

@@ -1,6 +1,7 @@
 package dawidkruczek.projectII.librarysystem.support.author;
 
 import dawidkruczek.projectII.librarysystem.model.Author;
+import dawidkruczek.projectII.librarysystem.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ public class AuthorController {
     }
 
     @GetMapping("/authors/{id}")
-    public Author getAuthor(@PathVariable long id) {
+    public Author getAuthor(@PathVariable String id) {
         return authorService.getAuthor(id);
     }
 
@@ -27,12 +28,12 @@ public class AuthorController {
     }
 
     @PutMapping("/authors/{id}")
-    public void updateAuthor(@RequestBody Author author, @PathVariable long id) {
+    public void updateAuthor(@RequestBody Author author, @PathVariable String id) {
         authorService.updateAuthor(id, author);
     }
 
     @DeleteMapping("/authors/{id}")
-    public void updateAuthor(@PathVariable long id) {
+    public void updateAuthor(@PathVariable String id) {
         authorService.deleteAuthor(id);
     }
 }

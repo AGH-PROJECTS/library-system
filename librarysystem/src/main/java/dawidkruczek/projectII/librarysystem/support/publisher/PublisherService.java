@@ -1,37 +1,37 @@
 package dawidkruczek.projectII.librarysystem.support.publisher;
 
-import dawidkruczek.projectII.librarysystem.model.Author;
 import dawidkruczek.projectII.librarysystem.model.Publisher;
+import dawidkruczek.projectII.librarysystem.repository.PublisherRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class PublisherService {
+    private PublisherRepository repository;
 
-    private List<Publisher> publishers = new ArrayList<>(Arrays.asList(
-            new Publisher(0,"BOOKS")
-    ));
-
-    public List<Publisher> getAllPublishers() {
-        return publishers;
+    public PublisherService(PublisherRepository repository) {
+        this.repository = repository;
     }
 
-    public Publisher getPublisher(long id) {
-        return publishers.stream().filter(publisher -> publisher.getId()==id).findFirst().get();
+    public List<Publisher> getAllPublishers() {
+        return repository.findAll();
+    }
+
+    public Publisher getPublisher(String id) {
+        return repository.findById(id);
     }
 
     public void addPublisher(Publisher publisher) {
-        publishers.add(publisher);
+        repository.insert(publisher);
     }
 
-    public void updatePublisher(long id, Publisher publisher) {
-        publishers.set(Math.toIntExact(id),publisher);
+    public void updatePublisher(String id, Publisher publisher) {
+        publisher.setId(id);
+        repository.save(publisher);
     }
 
-    public void deletePublisher(long id) {
-        publishers.remove(id);
+    public void deletePublisher(String id) {
+        repository.delete(id);
     }
 }

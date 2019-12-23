@@ -1,6 +1,5 @@
 package dawidkruczek.projectII.librarysystem.support.book;
 
-import dawidkruczek.projectII.librarysystem.model.Author;
 import dawidkruczek.projectII.librarysystem.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
-    public Book getBook(@PathVariable long id) {
+    public Book getBook(@PathVariable String id) {
         return bookService.getBook(id);
     }
 
@@ -28,12 +27,12 @@ public class BookController {
     }
 
     @PutMapping("/books/{id}")
-    public void updateBook(@RequestBody Book book, @PathVariable long id) {
+    public void updateBook(@RequestBody Book book, @PathVariable String id) {
         bookService.updateBook(id, book);
     }
 
     @DeleteMapping("/books/{id}")
-    public void updateBook(@PathVariable long id) {
+    public void updateBook(@PathVariable String id) {
         bookService.deleteBook(id);
     }
 }

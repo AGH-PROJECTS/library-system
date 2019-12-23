@@ -1,39 +1,36 @@
 package dawidkruczek.projectII.librarysystem.support.author;
 
 import dawidkruczek.projectII.librarysystem.model.Author;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import dawidkruczek.projectII.librarysystem.repository.AuthorRepository;
+import org.springframework.stereotype.Service;;
 import java.util.List;
 
 @Service
 public class AuthorService {
+    private AuthorRepository repository;
 
-    private List<Author> authors = new ArrayList<> (Arrays.asList(
-            new Author(0,"Henryk","Sienkiewicz","05.05.1846"),
-            new Author(1,"Maria","Konopnicka","23 maja 1842"),
-            new Author(2,"Olga", "Tokarczuk","29 stycznia 1962")
-    ));
-
-    public List<Author> getAllAuthors() {
-        return authors;
+    public AuthorService(AuthorRepository repository) {
+        this.repository = repository;
     }
 
-    public Author getAuthor(long id) {
-        return authors.stream().filter(author -> author.getId() == id).findFirst().get();
+    public List<Author> getAllAuthors() {
+        return repository.findAll();
+    }
+
+    public Author getAuthor(String id) {
+        return repository.findById(id);
     }
 
     public void addAuthor(Author author) {
-        authors.add(author);
+        repository.insert(author);
     }
 
-
-    public void updateAuthor(long id, Author updatedAuthor) {
-        authors.set(Math.toIntExact(id),updatedAuthor);
+    public void updateAuthor(String id, Author newAuthor) {
+        newAuthor.setId(id);
+        repository.save(newAuthor);
     }
 
-    public void deleteAuthor(long id) {
-        authors.remove(id);
+    public void deleteAuthor(String id) {
+        repository.delete(id);
     }
 }

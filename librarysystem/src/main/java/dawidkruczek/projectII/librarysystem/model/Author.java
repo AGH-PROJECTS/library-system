@@ -1,25 +1,29 @@
 package dawidkruczek.projectII.librarysystem.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "Authors")
 public class Author {
-    private long id;
+    @Id
+    private String id;
     private String firstName;
     private String lastName;
     private String dateOfBirth;
 
     public Author() {}
 
-    public Author(long id, String firstName, String lastName, String dateOfBirth) {
-        this.id = id;
+    public Author(String firstName, String lastName, String dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

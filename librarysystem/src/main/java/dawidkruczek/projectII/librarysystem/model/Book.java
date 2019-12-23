@@ -1,7 +1,12 @@
 package dawidkruczek.projectII.librarysystem.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "Books")
 public class Book {
-    private long id;
+    @Id
+    private String id;
     private String isbn;
     private Category category;
     private String title;
@@ -11,8 +16,7 @@ public class Book {
 
     public Book() {}
 
-    public Book(long id, String isbn, Category category, String title, Author author, Publisher publisher, String yearOfPublish) {
-        this.id = id;
+    public Book(String isbn, Category category, String title, Author author, Publisher publisher, String yearOfPublish) {
         this.isbn = isbn;
         this.category = category;
         this.title = title;
@@ -21,11 +25,11 @@ public class Book {
         this.yearOfPublish = yearOfPublish;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

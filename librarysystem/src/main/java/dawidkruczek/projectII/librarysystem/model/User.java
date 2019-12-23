@@ -1,7 +1,12 @@
 package dawidkruczek.projectII.librarysystem.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "Users")
 public class User {
-    private long id;
+    @Id
+    private String id;
     private String username;
     private String firstName;
     private String lastName;
@@ -13,8 +18,7 @@ public class User {
 
     public User() {}
 
-    public User(long id, String username, String firstName, String lastName, String email, String password, String birthDate, String role, String pesel) {
-        this.id = id;
+    public User(String username, String firstName, String lastName, String email, String password, String birthDate, String role, String pesel) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,11 +29,11 @@ public class User {
         this.pesel = pesel;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

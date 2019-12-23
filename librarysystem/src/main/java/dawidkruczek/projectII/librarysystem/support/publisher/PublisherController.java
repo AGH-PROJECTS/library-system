@@ -18,7 +18,7 @@ public class PublisherController {
     }
 
     @GetMapping("/publishers/{id}")
-    public Publisher getPublisher(@PathVariable long id) {
+    public Publisher getPublisher(@PathVariable String id) {
         return publisherService.getPublisher(id);
     }
 
@@ -28,12 +28,12 @@ public class PublisherController {
     }
 
     @PutMapping("/publishers/{id}")
-    public void updatePublisher(@RequestBody Publisher publisher, @PathVariable long id) {
+    public void updatePublisher(@RequestBody Publisher publisher, @PathVariable String id) {
         publisherService.updatePublisher(id, publisher);
     }
 
     @DeleteMapping("/publishers/{id}")
-    public void updatePublisher(@PathVariable long id) {
+    public void updatePublisher(@PathVariable String id) {
         publisherService.deletePublisher(id);
     }
 }
