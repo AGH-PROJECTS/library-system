@@ -3,7 +3,7 @@ package dawidkruczek.projectII.librarysystem.support.user;
 import dawidkruczek.projectII.librarysystem.model.AuthenticationRequest;
 import dawidkruczek.projectII.librarysystem.model.AuthenticationResponse;
 import dawidkruczek.projectII.librarysystem.security.CustomUserDetailsService;
-import dawidkruczek.projectII.librarysystem.security.JWTUtil;
+import dawidkruczek.projectII.librarysystem.security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +24,7 @@ public class UserController {
     private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    private JWTUtil jwtUtil;
+    private JWTService jwtUtil;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {

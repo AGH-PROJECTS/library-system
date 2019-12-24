@@ -1,5 +1,6 @@
 package dawidkruczek.projectII.librarysystem.support.book;
 
+import dawidkruczek.projectII.librarysystem.exception.EntityNotFoundException;
 import dawidkruczek.projectII.librarysystem.model.Book;
 import dawidkruczek.projectII.librarysystem.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,12 @@ public class BookService {
     }
 
     public Book getBook(String id) {
-        return repository.findById(id);
+        Book book = repository.findById(id);
+        if(book == null) {
+            throw new EntityNotFoundException();
+        } else {
+            return book;
+        }
     }
 
     public void addBook(Book book) {

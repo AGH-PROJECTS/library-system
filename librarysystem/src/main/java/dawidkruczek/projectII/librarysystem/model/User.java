@@ -1,10 +1,20 @@
 package dawidkruczek.projectII.librarysystem.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Document(collection = "Users")
-public class User {
+public class User implements UserDetails {
     @Id
     private String id;
     private String username;
@@ -13,19 +23,19 @@ public class User {
     private String email;
     private String password;
     private String birthDate;
-    private String role; //maybe enum
+    private List<String> roles;
     private String pesel;
 
     public User() {}
 
-    public User(String username, String firstName, String lastName, String email, String password, String birthDate, String role, String pesel) {
+    public User(String username, String firstName, String lastName, String email, String password, String birthDate, List<String> roles, String pesel) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.birthDate = birthDate;
-        this.role = role;
+        this.roles = roles;
         this.pesel = pesel;
     }
 
@@ -39,6 +49,31 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream().map(SimpleGrantedAuthority::new).collect(toList());
     }
 
     public void setUsername(String username) {
@@ -85,19 +120,19 @@ public class User {
         this.birthDate = birthDate;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getPesel() {
         return pesel;
     }
 
     public void setPesel(String pesel) {
         this.pesel = pesel;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }

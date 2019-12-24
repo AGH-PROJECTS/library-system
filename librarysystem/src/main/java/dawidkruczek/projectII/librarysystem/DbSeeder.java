@@ -63,7 +63,8 @@ public class DbSeeder implements CommandLineRunner {
         bookRepository.save(books);
 
         List<User> users = Arrays.asList(
-                new User("DawidKruczek", "Dawid","Kruczek","dawid@gmail.com", "zaq1@WSX", "30.06.1997", "admin", "97063001370")
+            new User("dawid", "Dawid","Kruczek","dawid@gmail.com", "zaq1@WSX", "30.06.1997", Arrays.asList("ROLE_USER","ROLE_ADMIN"), "97063001370"),
+            new User("dawid2", "Dawid","Kruczek","dawid@gmail.com", "zaq1@WSX", "30.06.1997", Arrays.asList("ROLE_USER"), "66563423123")
         );
 
         userRepository.deleteAll();
