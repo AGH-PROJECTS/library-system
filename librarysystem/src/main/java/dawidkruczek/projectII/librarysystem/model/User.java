@@ -1,5 +1,6 @@
 package dawidkruczek.projectII.librarysystem.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -71,6 +72,7 @@ public class User implements UserDetails {
         return true;
     }
 
+    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(toList());
@@ -134,5 +136,16 @@ public class User implements UserDetails {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

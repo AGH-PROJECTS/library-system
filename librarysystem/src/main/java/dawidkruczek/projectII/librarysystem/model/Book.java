@@ -3,15 +3,23 @@ package dawidkruczek.projectII.librarysystem.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+
 @Document(collection = "Books")
 public class Book {
     @Id
     private String id;
+    @NotNull(message = "isbn is required")
     private String isbn;
+    @NotNull(message = "category is required")
     private Category category;
+    @NotNull(message = "title is required")
     private String title;
+    @NotNull(message = "author is required")
     private Author author;
+    @NotNull(message = "publisher is required")
     private Publisher publisher;
+    @NotNull(message = "yearOfPublish is required")
     private String yearOfPublish;
 
     public Book() {}
@@ -79,5 +87,11 @@ public class Book {
 
     public void setYearOfPublish(String yearOfPublish) {
         this.yearOfPublish = yearOfPublish;
+    }
+
+    @Override
+    public String toString() {
+        return isbn + " " + title + " " + yearOfPublish + " " + category.toString() + " " + author.toString()
+ + " " + publisher.toString();
     }
 }

@@ -37,14 +37,14 @@ public class DbSeeder implements CommandLineRunner {
         );
 
         authorRepository.deleteAll();
-        authorRepository.save(authors);
+        authorRepository.saveAll(authors);
 
         List<Category> categories = Arrays.asList(
                 new Category("Peozja Epicka")
         );
 
         categoryRepository.deleteAll();
-        categoryRepository.save(categories);
+        categoryRepository.saveAll(categories);
 
         List<Publisher> publishers = new ArrayList<>(Arrays.asList(
             new Publisher("BOOKS"),
@@ -52,7 +52,7 @@ public class DbSeeder implements CommandLineRunner {
         ));
 
         publisherRepository.deleteAll();
-        publisherRepository.save(publishers);
+        publisherRepository.saveAll(publishers);
 
 
         List<Book> books = Arrays.asList(
@@ -60,7 +60,7 @@ public class DbSeeder implements CommandLineRunner {
         );
 
         bookRepository.deleteAll();
-        bookRepository.save(books);
+        bookRepository.saveAll(books);
 
         List<User> users = Arrays.asList(
             new User("dawid", "Dawid","Kruczek","dawid@gmail.com", "zaq1@WSX", "30.06.1997", Arrays.asList("ROLE_USER","ROLE_ADMIN"), "97063001370"),
@@ -68,6 +68,13 @@ public class DbSeeder implements CommandLineRunner {
         );
 
         userRepository.deleteAll();
-        userRepository.save(users);
+        userRepository.saveAll(users);
+
+        List<Order> orders = new ArrayList<>(Arrays.asList(
+            new Order(users.get(0),users.get(0),users.get(0),books.get(0),"13.12.2019","13.01.2020","RENTED")
+        ));
+
+        orderRepository.deleteAll();
+        orderRepository.saveAll(orders);
     }
 }

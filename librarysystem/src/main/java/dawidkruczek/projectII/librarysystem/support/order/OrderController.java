@@ -1,11 +1,11 @@
 package dawidkruczek.projectII.librarysystem.support.order;
 
-import dawidkruczek.projectII.librarysystem.model.Author;
 import dawidkruczek.projectII.librarysystem.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class OrderController {
@@ -18,22 +18,22 @@ public class OrderController {
     }
 
     @GetMapping("/orders/{id}")
-    public Order getOrder(@PathVariable String id) {
+    public Optional<Order> getOrder(@PathVariable String id) {
         return orderService.getOrder(id);
     }
 
     @PostMapping("/orders")
-    public void addOrder(@RequestBody Order order) {
-        orderService.addOrder(order);
+    public List<String> addOrder(@RequestBody Order order) {
+        return orderService.addOrder(order);
     }
 
     @PutMapping("/orders/{id}")
-    public void updateOrder(@RequestBody Order order, @PathVariable String id) {
-        orderService.updateOrder(id, order);
+    public List<String> updateOrder(@RequestBody Order order, @PathVariable String id) {
+        return orderService.updateOrder(id, order);
     }
 
     @DeleteMapping("/orders/{id}")
-    public void updateOrder(@PathVariable String id) {
-        orderService.deleteOrder(id);
+    public String updateOrder(@PathVariable String id) {
+        return orderService.deleteOrder(id);
     }
 }

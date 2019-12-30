@@ -3,10 +3,13 @@ package dawidkruczek.projectII.librarysystem.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+
 @Document(collection = "Publishers")
 public class Publisher {
     @Id
     private String id;
+    @NotNull(message = "name is required")
     private String name;
 
     public Publisher() {}
@@ -29,5 +32,10 @@ public class Publisher {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

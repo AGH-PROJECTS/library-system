@@ -3,16 +3,25 @@ package dawidkruczek.projectII.librarysystem.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+
 @Document(collection = "Orders")
 public class Order {
     @Id
     private String id;
+    @NotNull(message = "user is required")
     private User user;
+    @NotNull(message = "employeeRent is required")
     private User employeeRent;
+    @NotNull(message = "employeeReturn is required")
     private User employeeReturn;
+    @NotNull(message = "book is required")
     private Book book;
+    @NotNull(message = "dateOfRent is required")
     private String dateOfRent;
+    @NotNull(message = "dateOfReturn is required")
     private String dateOfReturn;
+    @NotNull(message = "status is required")
     private String status;
 
     public Order(){}

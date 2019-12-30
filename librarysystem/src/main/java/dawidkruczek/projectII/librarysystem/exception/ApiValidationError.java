@@ -1,6 +1,6 @@
 package dawidkruczek.projectII.librarysystem.exception;
 
-public class ApiValidationError extends ApiSubError {
+public class ApiValidationError {
     private String object;
     private String field;
     private Object rejectedValue;

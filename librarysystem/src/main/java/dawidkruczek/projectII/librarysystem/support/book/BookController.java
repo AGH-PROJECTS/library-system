@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class BookController {
@@ -17,22 +18,22 @@ public class BookController {
     }
 
     @GetMapping("/books/{id}")
-    public Book getBook(@PathVariable String id) {
+    public Optional<Book> getBook(@PathVariable String id) {
         return bookService.getBook(id);
     }
 
     @PostMapping("/books")
-    public void addBook(@RequestBody Book book) {
-        bookService.addBook(book);
+    public List<String> addBook(@RequestBody Book book) {
+        return bookService.addBook(book);
     }
 
     @PutMapping("/books/{id}")
-    public void updateBook(@RequestBody Book book, @PathVariable String id) {
-        bookService.updateBook(id, book);
+    public List<String> updateBook(@RequestBody Book book, @PathVariable String id) {
+        return bookService.updateBook(id, book);
     }
 
     @DeleteMapping("/books/{id}")
-    public void updateBook(@PathVariable String id) {
-        bookService.deleteBook(id);
+    public String deleteBook(@PathVariable String id) {
+        return bookService.deleteBook(id);
     }
 }

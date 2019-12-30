@@ -8,37 +8,39 @@ import java.util.List;
 
 public class ApiError {
     private HttpStatus status;
+    private int statusVlue;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
     private String message;
-    private String debugMessage;
-    private List<ApiSubError> subErrors;
 
     private ApiError() {
         timestamp = LocalDateTime.now();
     }
 
-    ApiError(HttpStatus status) {
-        this();
-        this.status = status;
-    }
-
-    ApiError(HttpStatus status, Throwable ex) {
-        this();
-        this.status = status;
-        this.message = "Unexpected error";
-        this.debugMessage = ex.getLocalizedMessage();
-    }
-
     ApiError(HttpStatus status, String message, Throwable ex) {
         this();
         this.status = status;
+        this.statusVlue = status.value();
         this.message = message;
-        this.debugMessage = ex.getLocalizedMessage();
+    }
+
+    ApiError(HttpStatus status, String message) {
+        this();
+        this.status = status;
+        this.statusVlue = status.value();
+        this.message = message;
     }
 
     public HttpStatus getStatus() {
         return status;
+    }
+
+    public int getStatusVlue() {
+        return statusVlue;
+    }
+
+    public void setStatusVlue(int statusVlue) {
+        this.statusVlue = statusVlue;
     }
 
     public LocalDateTime getTimestamp() {
@@ -47,14 +49,6 @@ public class ApiError {
 
     public String getMessage() {
         return message;
-    }
-
-    public String getDebugMessage() {
-        return debugMessage;
-    }
-
-    public List<ApiSubError> getSubErrors() {
-        return subErrors;
     }
 
     public void setStatus(HttpStatus status) {
@@ -67,13 +61,5 @@ public class ApiError {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public void setDebugMessage(String debugMessage) {
-        this.debugMessage = debugMessage;
-    }
-
-    public void setSubErrors(List<ApiSubError> subErrors) {
-        this.subErrors = subErrors;
     }
 }

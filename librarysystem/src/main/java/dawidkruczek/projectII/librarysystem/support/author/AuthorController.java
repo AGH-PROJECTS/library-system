@@ -1,11 +1,14 @@
 package dawidkruczek.projectII.librarysystem.support.author;
 
+import dawidkruczek.projectII.librarysystem.exception.EntityNotFoundException;
 import dawidkruczek.projectII.librarysystem.model.Author;
-import dawidkruczek.projectII.librarysystem.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AuthorController {
@@ -18,22 +21,22 @@ public class AuthorController {
     }
 
     @GetMapping("/authors/{id}")
-    public Author getAuthor(@PathVariable String id) {
+    public Optional<Author> getAuthor(@PathVariable String id) {
         return authorService.getAuthor(id);
     }
 
     @PostMapping("/authors")
-    public void addAuthor(@RequestBody Author author) {
-        authorService.addAuthor(author);
+    public List<String> addAuthor(@RequestBody Author author) {
+        return authorService.addAuthor(author);
     }
 
     @PutMapping("/authors/{id}")
-    public void updateAuthor(@RequestBody Author author, @PathVariable String id) {
-        authorService.updateAuthor(id, author);
+    public List<String> updateAuthor(@RequestBody Author author, @PathVariable String id) {
+        return authorService.updateAuthor(id, author);
     }
 
     @DeleteMapping("/authors/{id}")
-    public void updateAuthor(@PathVariable String id) {
-        authorService.deleteAuthor(id);
+    public String deleteAuthor(@PathVariable String id) {
+        return authorService.deleteAuthor(id);
     }
 }

@@ -3,12 +3,17 @@ package dawidkruczek.projectII.librarysystem.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+
 @Document(collection = "Authors")
 public class Author {
     @Id
     private String id;
+    @NotNull(message = "firstName is required")
     private String firstName;
+    @NotNull(message = "lastName is required")
     private String lastName;
+    @NotNull(message = "dateOfBirth is required")
     private String dateOfBirth;
 
     public Author() {}
@@ -49,5 +54,10 @@ public class Author {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " " + dateOfBirth;
     }
 }
