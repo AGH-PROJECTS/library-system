@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Document(collection = "Authors")
 public class Author {
@@ -59,5 +60,21 @@ public class Author {
     @Override
     public String toString() {
         return firstName + " " + lastName + " " + dateOfBirth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return id.equals(author.id) &&
+                firstName.equals(author.firstName) &&
+                lastName.equals(author.lastName) &&
+                dateOfBirth.equals(author.dateOfBirth);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, dateOfBirth);
     }
 }
