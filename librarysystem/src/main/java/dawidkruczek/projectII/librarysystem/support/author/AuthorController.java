@@ -4,6 +4,7 @@ import dawidkruczek.projectII.librarysystem.exception.EntityNotFoundException;
 import dawidkruczek.projectII.librarysystem.model.Author;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,27 +17,27 @@ public class AuthorController {
     private AuthorService authorService;
 
     @RequestMapping("/authors")
-    public List<Author> getAllAuthors() {
-        return authorService.getAllAuthors();
+    public ResponseEntity<List<Author>> getAllAuthors() {
+        return ResponseEntity.ok(authorService.getAllAuthors());
     }
 
     @GetMapping("/authors/{id}")
-    public Optional<Author> getAuthor(@PathVariable String id) {
-        return authorService.getAuthor(id);
+    public ResponseEntity<Optional<Author>> getAuthor(@PathVariable String id) {
+        return ResponseEntity.ok(authorService.getAuthor(id));
     }
 
     @PostMapping("/authors")
-    public List<String> addAuthor(@RequestBody Author author) {
-        return authorService.addAuthor(author);
+    public ResponseEntity<List<String>> addAuthor(@RequestBody Author author) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authorService.addAuthor(author));
     }
 
     @PutMapping("/authors/{id}")
-    public List<String> updateAuthor(@RequestBody Author author, @PathVariable String id) {
-        return authorService.updateAuthor(id, author);
+    public ResponseEntity<List<String>> updateAuthor(@RequestBody Author author, @PathVariable String id) {
+        return ResponseEntity.accepted().body(authorService.updateAuthor(id, author));
     }
 
     @DeleteMapping("/authors/{id}")
-    public String deleteAuthor(@PathVariable String id) {
-        return authorService.deleteAuthor(id);
+    public ResponseEntity<String> deleteAuthor(@PathVariable String id) {
+        return ResponseEntity.accepted().body(authorService.deleteAuthor(id));
     }
 }

@@ -17,7 +17,6 @@ import java.util.Optional;
 public class AuthorService {
     private AuthorRepository repository;
 
-
     public AuthorService(AuthorRepository repository) {
         this.repository = repository;
     }
