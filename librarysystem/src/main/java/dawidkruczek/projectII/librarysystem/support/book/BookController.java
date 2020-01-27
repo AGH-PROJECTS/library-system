@@ -2,6 +2,7 @@ package dawidkruczek.projectII.librarysystem.support.book;
 
 import dawidkruczek.projectII.librarysystem.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,27 +14,27 @@ public class BookController {
     private BookService bookService;
 
     @RequestMapping("/books")
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    public ResponseEntity<List<Book>> getAllBooks() {
+        return ResponseEntity.ok(bookService.getAllBooks());
     }
 
     @GetMapping("/books/{id}")
-    public Optional<Book> getBook(@PathVariable String id) {
-        return bookService.getBook(id);
+    public ResponseEntity<Optional<Book>> getBook(@PathVariable String id) {
+        return ResponseEntity.ok(bookService.getBook(id));
     }
 
     @PostMapping("/books")
-    public List<String> addBook(@RequestBody Book book) {
-        return bookService.addBook(book);
+    public ResponseEntity<List<String>> addBook(@RequestBody Book book) {
+        return ResponseEntity.ok(bookService.addBook(book));
     }
 
     @PutMapping("/books/{id}")
-    public List<String> updateBook(@RequestBody Book book, @PathVariable String id) {
-        return bookService.updateBook(id, book);
+    public ResponseEntity<List<String>> updateBook(@RequestBody Book book, @PathVariable String id) {
+        return ResponseEntity.ok(bookService.updateBook(id, book));
     }
 
     @DeleteMapping("/books/{id}")
-    public String deleteBook(@PathVariable String id) {
-        return bookService.deleteBook(id);
+    public ResponseEntity<String> deleteBook(@PathVariable String id) {
+        return ResponseEntity.ok(bookService.deleteBook(id));
     }
 }

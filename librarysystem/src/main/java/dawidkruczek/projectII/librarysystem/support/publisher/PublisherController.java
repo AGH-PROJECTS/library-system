@@ -33,7 +33,7 @@ public class PublisherController {
     }
 
     @DeleteMapping("/publishers/{id}")
-    public String updatePublisher(@PathVariable String id) {
+    public String deletePublisher(@PathVariable String id) {
         return publisherService.deletePublisher(id);
     }
 }

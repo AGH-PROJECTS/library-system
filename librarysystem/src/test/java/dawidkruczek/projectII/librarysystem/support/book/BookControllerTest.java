@@ -14,17 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,18 +83,126 @@ class BookControllerTest {
     }
 
     @Test
-    void getBook() {
+    void getBook() throws Exception {
+        Author author = new Author("Adam","Mickiewicz","24.12.1798");
+        author.setId("1");
+        Category category = new Category("Peozja Epicka");
+        category.setId("1");
+        Publisher publisher = new Publisher("Aleksander Jełowicki");
+        publisher.setId("1");
+        Book book = new Book("9788377792124", category, "Pan Tadeusz", author, publisher, "2014");
+        book.setId("1");
+        when(repository.findById("1")).thenReturn(Optional.of(book));
+        mockMvc.perform(get("/books/1" ))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":\"1\",\"isbn\": \"9788377792124\",\n" +
+                        "\"category\": {\n" +
+                        "\"id\": \"1\",\n" +
+                        "\"name\": \"Peozja Epicka\"\n" +
+                        "},\n" +
+                        "\"title\": \"Pan Tadeusz\",\n" +
+                        "\"author\": {\n" +
+                        "\"id\": \"1\",\n" +
+                        "            \"firstName\": \"Adam\",\n" +
+                        "            \"lastName\": \"Mickiewicz\",\n" +
+                        "            \"dateOfBirth\": \"24.12.1798\"\n" +
+                        "        },\n" +
+                        "        \"publisher\": {\n" +
+                        "            \"id\": \"1\",\n" +
+                        "            \"name\": \"Aleksander Jełowicki\"\n" +
+                        "        },\n" +
+                        "        \"yearOfPublish\": \"2014\"}"));
     }
 
     @Test
-    void addBook() {
+    void addBook() throws Exception {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("dawid", "zaq1@WSX"));
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername("dawid");
+        final String jwt = jwtUtil.generateToken(userDetails);
+        mockMvc.perform(post("/books" )
+                .header("Authorization", "Bearer " + jwt)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "    \"isbn\": \"9788377792124\",\n" +
+                        "    \"category\": {\n" +
+                        "        \"id\": \"5e2f3bfd75ac2c07ac4d501e\",\n" +
+                        "        \"name\": \"Peozja Epicka\"\n" +
+                        "    },\n" +
+                        "    \"title\": \"Pan Tadeusz\",\n" +
+                        "    \"author\": {\n" +
+                        "        \"id\": \"5e2f3bfd75ac2c07ac4d501d\",\n" +
+                        "        \"firstName\": \"Adam\",\n" +
+                        "        \"lastName\": \"Mickiewicz\",\n" +
+                        "        \"dateOfBirth\": \"24 grudnia 1798\"\n" +
+                        "    },\n" +
+                        "    \"publisher\": {\n" +
+                        "        \"id\": \"5e2f3bfd75ac2c07ac4d5020\",\n" +
+                        "        \"name\": \"Aleksander Jełowicki\"\n" +
+                        "    },\n" +
+                        "    \"yearOfPublish\": \"2014\"\n" +
+                        "}"))
+                .andExpect(content().string("[\"9788377792124\",\"Pan Tadeusz\",\"2014\",\"Adam\",\"Mickiewicz\",\"24 grudnia 1798\",\"added\",\"Peozja Epicka\",\"added\",\"Aleksander Jełowicki\",\"added\",\"added\"]"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void updateBook() {
+    void updateBook() throws Exception {
+        Author author = new Author("Adam","Mickiewicz","24.12.1798");
+        author.setId("1");
+        Category category = new Category("Peozja Epicka");
+        category.setId("1");
+        Publisher publisher = new Publisher("Aleksander Jełowicki");
+        publisher.setId("1");
+        Book book = new Book("9788377792124", category, "Pan Tadeusz", author, publisher, "2014");
+        book.setId("1");
+        when(repository.findById("1")).thenReturn(Optional.of(book));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("dawid", "zaq1@WSX"));
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername("dawid");
+        final String jwt = jwtUtil.generateToken(userDetails);
+        mockMvc.perform(post("/books" )
+                .header("Authorization", "Bearer " + jwt)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "\"id\": \"1\",\n" +
+                        "    \"isbn\": \"9788377792124\",\n" +
+                        "    \"category\": {\n" +
+                        "        \"id\": \"1\",\n" +
+                        "        \"name\": \"Peozja Epicka\"\n" +
+                        "    },\n" +
+                        "    \"title\": \"Pan Tadeusz\",\n" +
+                        "    \"author\": {\n" +
+                        "        \"id\": \"1\",\n" +
+                        "        \"firstName\": \"Adam\",\n" +
+                        "        \"lastName\": \"Mickiewicz\",\n" +
+                        "        \"dateOfBirth\": \"24 grudnia 1798\"\n" +
+                        "    },\n" +
+                        "    \"publisher\": {\n" +
+                        "        \"id\": \"1\",\n" +
+                        "        \"name\": \"Aleksander Jełowicki\"\n" +
+                        "    },\n" +
+                        "    \"yearOfPublish\": \"2014\"\n" +
+                        "}"))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void deleteBook() {
+    void deleteBook() throws Exception {
+        Author author = new Author("Adam","Mickiewicz","24.12.1798");
+        author.setId("1");
+        Category category = new Category("Peozja Epicka");
+        category.setId("1");
+        Publisher publisher = new Publisher("Aleksander Jełowicki");
+        publisher.setId("1");
+        Book book = new Book("9788377792124", category, "Pan Tadeusz", author, publisher, "2014");
+        book.setId("1");
+        when(repository.findById("1")).thenReturn(Optional.of(book));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("dawid", "zaq1@WSX"));
+        final UserDetails userDetails = customUserDetailsService.loadUserByUsername("dawid");
+        final String jwt = jwtUtil.generateToken(userDetails);
+        mockMvc.perform(delete("/books/1" )
+                .header("Authorization", "Bearer " + jwt)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

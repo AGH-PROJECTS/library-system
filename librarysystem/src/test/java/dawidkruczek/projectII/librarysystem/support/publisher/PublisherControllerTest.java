@@ -1,8 +1,10 @@
-package dawidkruczek.projectII.librarysystem.support.author;
+package dawidkruczek.projectII.librarysystem.support.publisher;
 
-import dawidkruczek.projectII.librarysystem.exception.EntityNotFoundException;
+import com.google.gson.Gson;
 import dawidkruczek.projectII.librarysystem.model.Author;
+import dawidkruczek.projectII.librarysystem.model.Publisher;
 import dawidkruczek.projectII.librarysystem.repository.AuthorRepository;
+import dawidkruczek.projectII.librarysystem.repository.PublisherRepository;
 import dawidkruczek.projectII.librarysystem.security.CustomUserDetailsService;
 import dawidkruczek.projectII.librarysystem.security.JWTService;
 import org.junit.jupiter.api.Test;
@@ -15,25 +17,27 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
-class AuthorControllerTest {
+class PublisherControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private  AuthorRepository authorRepository;
+    private PublisherRepository repository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -45,67 +49,66 @@ class AuthorControllerTest {
     private JWTService jwtUtil;
 
     @Test
-    void getAllAuthors() throws Exception {
-        Author author = new Author("Henryk","Sienkiewicz","05.05.1846");
-        author.setId("1");
-        List<Author> allAuthors = Collections.singletonList(author);
-        when(authorRepository.findAll()).thenReturn(allAuthors);
-        mockMvc.perform(get("/authors" ))
+    void getAllPublishers() throws Exception {
+        Publisher publisher =  new Publisher("BOOKS");
+        publisher.setId("1");
+        List<Publisher> publishers = Collections.singletonList(publisher);
+        when(repository.findAll()).thenReturn(publishers);
+        mockMvc.perform(get("/publishers" ))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":\"1\",\"firstName\": \"Henryk\", \"lastName\": \"Sienkiewicz\", \"dateOfBirth\": \"05.05.1846\"}]"));
-
+                .andExpect(status().isOk());
     }
 
     @Test
-    void getAuthor() throws Exception {
-        Author author = new Author("Henryk","Sienkiewicz","05.05.1846");
-        author.setId("1");
-        when(authorRepository.findById("1")).thenReturn(Optional.of(author));
-        mockMvc.perform(get("/authors/1" ))
+    void getPublisher() throws Exception {
+        Publisher publisher =  new Publisher("BOOKS");
+        publisher.setId("1");
+        when(repository.findById("1")).thenReturn(Optional.of(publisher));
+        mockMvc.perform(get("/publishers/1" ))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json("{\"id\":\"1\",\"firstName\": \"Henryk\", \"lastName\": \"Sienkiewicz\", \"dateOfBirth\": \"05.05.1846\"}"));
+                .andExpect(status().isOk());
     }
 
     @Test
-    void addAuthor() throws Exception {
+    void addPublisher() throws Exception {
+        Publisher publisher =  new Publisher("BOOKS");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("dawid", "zaq1@WSX"));
         final UserDetails userDetails = customUserDetailsService.loadUserByUsername("dawid");
         final String jwt = jwtUtil.generateToken(userDetails);
-        mockMvc.perform(post("/authors" )
+        when(repository.findById("1")).thenReturn(Optional.of(publisher));
+        mockMvc.perform(post("/publishers" )
                 .header("Authorization", "Bearer " + jwt)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"firstName\": \"Henryk\", \"lastName\": \"Sienkiewicz\", \"dateOfBirth\": \"05.05.1846\"}"))
-                .andExpect(content().string("[\"Henryk\",\"Sienkiewicz\",\"05.05.1846\",\"added\"]"))
-                .andExpect(status().isCreated());
+                .content(new Gson().toJson(publisher)))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void updateAuthor() throws Exception {
-        Author author = new Author("Henryk","Sienkiewicz","05.05.1846");
-        author.setId("1");
-        when(authorRepository.findById("1")).thenReturn(Optional.of(author));
+    void updatePublisher() throws Exception {
+        Publisher publisher =  new Publisher("BOOKS");
+        publisher.setId("1");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("dawid", "zaq1@WSX"));
         final UserDetails userDetails = customUserDetailsService.loadUserByUsername("dawid");
         final String jwt = jwtUtil.generateToken(userDetails);
-        mockMvc.perform(put("/authors/1" )
+        when(repository.findById("1")).thenReturn(Optional.of(publisher));
+        mockMvc.perform(put("/publishers/1" )
                 .header("Authorization", "Bearer " + jwt)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":\"1\",\"firstName\": \"Henryk\", \"lastName\": \"Sienkiewicz\", \"dateOfBirth\": \"05.05.1846\"}"))
-                .andExpect(status().isAccepted());
+                .content(new Gson().toJson(publisher)))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void deleteAuthor() throws Exception {
-        Author author = new Author("Henryk","Sienkiewicz","05.05.1846");
-        author.setId("1");
-        when(authorRepository.findById("1")).thenReturn(Optional.of(author));
+    void deletePublisher() throws Exception {
+        Publisher publisher =  new Publisher("BOOKS");
+        publisher.setId("1");
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken("dawid", "zaq1@WSX"));
         final UserDetails userDetails = customUserDetailsService.loadUserByUsername("dawid");
         final String jwt = jwtUtil.generateToken(userDetails);
-        mockMvc.perform(delete("/authors/1" )
+        when(repository.findById("1")).thenReturn(Optional.of(publisher));
+        mockMvc.perform(delete("/publishers/1" )
                 .header("Authorization", "Bearer " + jwt))
-                .andExpect(status().isAccepted());
+                .andExpect(status().isOk());
     }
+
 }
