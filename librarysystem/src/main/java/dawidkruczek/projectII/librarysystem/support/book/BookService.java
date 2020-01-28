@@ -83,26 +83,34 @@ public class BookService {
     public List<String > prepareAnswers(AnswerType type, Book book) {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         List<String > answers = new ArrayList<>();
-        List<String> authorAnswers = authorService.prepareAnswers(AnswerType.ADDED,book.getAuthor());
-        List<String > categoryAnswers = categoryService.prepareAnswers(AnswerType.ADDED,book.getCategory());
-        List<String > publisherAnswers = publisherService.prepareAnswers(AnswerType.ADDED,book.getPublisher());
+        List<String> authorAnswers = new ArrayList<>();
+        List<String > categoryAnswers = new ArrayList<>();
+        List<String> publisherAnswers = new ArrayList<>();
+        if(book.getAuthor()!=null && book.getCategory()!=null && book.getPublisher()!=null) {
+            authorAnswers = authorService.prepareAnswers(AnswerType.ADDED,book.getAuthor());
+            categoryAnswers = categoryService.prepareAnswers(AnswerType.ADDED,book.getCategory());
+            publisherAnswers = publisherService.prepareAnswers(AnswerType.ADDED,book.getPublisher());
 
-        if(validator.validate(book).size() == 0 && validator.validate(book.getAuthor()).size() == 0 && validator.validate(book.getPublisher()).size() == 0 && validator.validate(book.getCategory()).size() == 0) {
-            repository.insert(book);
-            answers.add(book.getIsbn());
-            answers.add(book.getTitle());
-            answers.add(book.getYearOfPublish());
-            answers.addAll(authorAnswers);
-            answers.addAll(categoryAnswers);
-            answers.addAll(publisherAnswers);
-            answers.add(type.toString());
+            if(validator.validate(book).size() == 0 && validator.validate(book.getAuthor()).size() == 0 && validator.validate(book.getPublisher()).size() == 0 && validator.validate(book.getCategory()).size() == 0) {
+                repository.save(book);
+                answers.add(book.getIsbn());
+                answers.add(book.getTitle());
+                answers.add(book.getYearOfPublish());
+                answers.addAll(authorAnswers);
+                answers.addAll(categoryAnswers);
+                answers.addAll(publisherAnswers);
+                answers.add(type.toString());
+            }
+            else {
+                answers.add("Wrong data: ");
+                validator.validate(book).forEach(v->answers.add(v.getMessage()));
+                validator.validate(book.getAuthor()).forEach(v->answers.add(v.getMessage()));
+                validator.validate(book.getPublisher()).forEach(v->answers.add(v.getMessage()));
+                validator.validate(book.getCategory()).forEach(v->answers.add(v.getMessage()));
+            }
         }
         else {
-            answers.add("Wrong data: ");
-            validator.validate(book).forEach(v->answers.add(v.getMessage()));
-            validator.validate(book.getAuthor()).forEach(v->answers.add(v.getMessage()));
-            validator.validate(book.getPublisher()).forEach(v->answers.add(v.getMessage()));
-            validator.validate(book.getCategory()).forEach(v->answers.add(v.getMessage()));
+            answers.add("Wrong data: Specify all required data");
         }
 
         return answers;

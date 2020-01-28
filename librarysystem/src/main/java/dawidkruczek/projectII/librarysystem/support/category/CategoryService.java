@@ -37,7 +37,7 @@ public class CategoryService {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         List<String > answers = new ArrayList<>();
         if(validator.validate(category).size() == 0) {
-            repository.insert(category);
+            repository.save(category);
             answers.add(category.getName());
             answers.add(type.toString());
         }

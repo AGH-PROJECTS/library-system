@@ -75,7 +75,7 @@ public class AuthorService {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         List<String > answers = new ArrayList<>();
         if(validator.validate(author).size() == 0) {
-            repository.insert(author);
+            repository.save(author);
             answers.add(author.getFirstName());
             answers.add(author.getLastName());
             answers.add(author.getDateOfBirth());

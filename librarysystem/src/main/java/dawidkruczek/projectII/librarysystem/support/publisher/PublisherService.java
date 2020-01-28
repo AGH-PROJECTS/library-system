@@ -76,7 +76,7 @@ public class PublisherService {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         List<String > answers = new ArrayList<>();
         if(validator.validate(publisher).size() == 0) {
-            repository.insert(publisher);
+            repository.save(publisher);
             answers.add(publisher.getName());
             answers.add(type.toString());
         }
