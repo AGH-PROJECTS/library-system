@@ -8,6 +8,7 @@ import dawidkruczek.projectII.librarysystem.support.author.AuthorService;
 import dawidkruczek.projectII.librarysystem.support.category.CategoryService;
 import dawidkruczek.projectII.librarysystem.support.publisher.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Validation;
@@ -69,11 +70,11 @@ public class BookService {
         return books;
     }
 
-    public String deleteBook(String id) {
+    public HttpStatus deleteBook(String id) {
         Optional<Book> book = repository.findById(id);
         if(book.isPresent()) {
             repository.delete(book.get());
-            return AnswerType.DELETED.toString();
+            return HttpStatus.OK;
         }
         else {
             throw new EntityNotFoundException(id);

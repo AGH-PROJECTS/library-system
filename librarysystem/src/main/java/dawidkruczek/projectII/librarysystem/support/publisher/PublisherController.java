@@ -2,15 +2,18 @@ package dawidkruczek.projectII.librarysystem.support.publisher;
 
 import dawidkruczek.projectII.librarysystem.model.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 public class PublisherController {
     @Autowired
     private PublisherService publisherService;
+
 
     @RequestMapping("/publishers")
     public List<Publisher> getAllPublishers() {
@@ -33,7 +36,7 @@ public class PublisherController {
     }
 
     @DeleteMapping("/publishers/{id}")
-    public String deletePublisher(@PathVariable String id) {
+    public HttpStatus deletePublisher(@PathVariable String id) {
         return publisherService.deletePublisher(id);
     }
 }

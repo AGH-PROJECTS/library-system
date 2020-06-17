@@ -33,6 +33,16 @@ public class Book {
         this.yearOfPublish = yearOfPublish;
     }
 
+    public Book(String isbn, String title, String yearOfPublish) {
+        this.isbn = isbn;
+        // this.category = category;
+        this.title = title;
+        // this.author = author;
+        //  this.publisher = publisher;
+        this.yearOfPublish = yearOfPublish;
+    }
+
+
     public String getId() {
         return id;
     }

@@ -25,6 +25,9 @@ public class UserController {
     private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private JWTService jwtUtil;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -38,6 +41,6 @@ public class UserController {
         final UserDetails userDetails = customUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok(new AuthenticationResponse(userService.getuser(authenticationRequest.getUsername()),jwt));
     }
 }

@@ -1,11 +1,10 @@
 package dawidkruczek.projectII.librarysystem.support.publisher;
 
 import dawidkruczek.projectII.librarysystem.exception.EntityNotFoundException;
-import dawidkruczek.projectII.librarysystem.model.Book;
-import dawidkruczek.projectII.librarysystem.model.Order;
 import dawidkruczek.projectII.librarysystem.model.Publisher;
 import dawidkruczek.projectII.librarysystem.repository.PublisherRepository;
 import dawidkruczek.projectII.librarysystem.support.AnswerType;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Validation;
@@ -61,11 +60,11 @@ public class PublisherService {
         return publishers;
     }
 
-    public String deletePublisher(String id) {
+    public HttpStatus deletePublisher(String id) {
         Optional<Publisher> publisher = repository.findById(id);
         if(publisher.isPresent()) {
             repository.delete(publisher.get());
-            return AnswerType.DELETED.toString();
+            return HttpStatus.OK;
         }
         else {
             throw new EntityNotFoundException(id);

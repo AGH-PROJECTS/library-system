@@ -32,8 +32,8 @@ public class DbSeeder implements CommandLineRunner {
     public void run(String... strings) throws Exception {
         List<Author> authors = Arrays.asList(
                 new Author("Henryk","Sienkiewicz","05.05.1846"),
-                new Author("Olga", "Tokarczuk","29 stycznia 1962"),
-                new Author("Adam", "Mickiewicz","24 grudnia 1798")
+                new Author("Olga", "Tokarczuk","29.01.1962"),
+                new Author("Adam", "Mickiewicz","24.12.1798")
         );
 
         authorRepository.deleteAll();
@@ -56,14 +56,17 @@ public class DbSeeder implements CommandLineRunner {
 
 
         List<Book> books = Arrays.asList(
+                new Book("9788377792124", categories.get(0), "Pan Tadeusz", authors.get(2), publishers.get(1), "2014"),
+                new Book("9788377792124", categories.get(0), "Pan Tadeusz", authors.get(2), publishers.get(1), "2014"),
                 new Book("9788377792124", categories.get(0), "Pan Tadeusz", authors.get(2), publishers.get(1), "2014")
+                //new Book("9788377792124", "Pan Tadeusz", "2014")
         );
 
         bookRepository.deleteAll();
         bookRepository.saveAll(books);
 
         List<User> users = Arrays.asList(
-            new User("dawid", "Dawid","Kruczek","dawid@gmail.com", "zaq1@WSX", "30.06.1997", Arrays.asList("ROLE_USER","ROLE_ADMIN"), "97063001370"),
+            new User("dawid", "Dawid","Kruczek","dawid@gmail.com", "zaq1@WSX", "30.06.1997", Arrays.asList("ROLE_ADMIN"), "97063001370"),
             new User("dawid2", "Dawid","Kruczek","dawid@gmail.com", "zaq1@WSX", "30.06.1997", Arrays.asList("ROLE_USER"), "66563423123")
         );
 

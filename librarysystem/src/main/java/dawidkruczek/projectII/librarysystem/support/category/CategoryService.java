@@ -6,6 +6,7 @@ import dawidkruczek.projectII.librarysystem.model.Book;
 import dawidkruczek.projectII.librarysystem.model.Category;
 import dawidkruczek.projectII.librarysystem.repository.CategoryRepository;
 import dawidkruczek.projectII.librarysystem.support.AnswerType;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Validation;
@@ -58,4 +59,34 @@ public class CategoryService {
             throw new EntityNotFoundException(id);
         }
     }
+
+    public List<String > addCategory(Category category) {
+        return prepareAnswers(AnswerType.ADDED,category);
+    }
+
+    public List<String> updateCategory(String id, Category newCategory) {
+        List<String> categories;
+        Optional<Category> oldCategory = repository.findById(id);
+
+        if(oldCategory.isPresent()) {
+            categories = prepareAnswers(AnswerType.UPDATED,newCategory);
+            newCategory.setId(id);
+        }
+        else {
+            throw new EntityNotFoundException(id);
+        }
+        return categories;
+    }
+
+    public HttpStatus deleteCategory(String id) {
+        Optional<Category> category = repository.findById(id);
+        if(category.isPresent()) {
+            repository.delete(category.get());
+            return HttpStatus.OK;
+        }
+        else {
+            throw new EntityNotFoundException(id);
+        }
+    }
+
 }

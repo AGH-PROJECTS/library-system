@@ -6,7 +6,7 @@ import dawidkruczek.projectII.librarysystem.repository.AuthorRepository;
 import dawidkruczek.projectII.librarysystem.support.AnswerType;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;;
+;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.ArrayList;
@@ -60,11 +60,11 @@ public class AuthorService {
         return answers;
     }
 
-    public String deleteAuthor(String id) {
+    public HttpStatus deleteAuthor(String id) {
         Optional<Author> author = repository.findById(id);
         if(author.isPresent()) {
             repository.delete(author.get());
-            return AnswerType.DELETED.toString();
+            return HttpStatus.OK;
         }
         else {
             throw new EntityNotFoundException(id);
@@ -75,6 +75,7 @@ public class AuthorService {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         List<String > answers = new ArrayList<>();
         if(validator.validate(author).size() == 0) {
+            repository.save(author);
             answers.add(author.getFirstName());
             answers.add(author.getLastName());
             answers.add(author.getDateOfBirth());

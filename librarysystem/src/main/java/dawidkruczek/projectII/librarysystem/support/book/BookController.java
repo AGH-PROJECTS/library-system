@@ -2,12 +2,13 @@ package dawidkruczek.projectII.librarysystem.support.book;
 
 import dawidkruczek.projectII.librarysystem.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin
 @RestController
 public class BookController {
     @Autowired
@@ -34,7 +35,7 @@ public class BookController {
     }
 
     @DeleteMapping("/books/{id}")
-    public ResponseEntity<String> deleteBook(@PathVariable String id) {
+    public ResponseEntity<HttpStatus> deleteBook(@PathVariable String id) {
         return ResponseEntity.ok(bookService.deleteBook(id));
     }
 }
